@@ -15,5 +15,5 @@ export class Toy {
 
     @IsDefined()
     @IsNumber()
-    weight: number;
+    weight: 'wood' | 'metal' | 'plastic' | 'other';
 }

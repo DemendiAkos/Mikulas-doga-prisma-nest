@@ -11,5 +11,5 @@ export class CreateToyDto {
 
     @IsDefined()
     @IsNumber()
-    weight: number;
+    weight: 'wood' | 'metal' | 'plastic' | 'other';
 }
