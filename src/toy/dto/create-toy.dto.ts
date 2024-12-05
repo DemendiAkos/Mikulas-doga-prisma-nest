@@ -1,4 +1,4 @@
-import { IsDefined, IsNumber, IsString } from "class-validator";
+import { IsDefined, IsIn, IsNumber, IsString } from "class-validator";
 
 export class CreateToyDto {
     @IsDefined()
@@ -7,9 +7,10 @@ export class CreateToyDto {
 
     @IsDefined()
     @IsString()
+    @IsIn(['wood', 'metal', 'plastic', 'other'])
     material: string;
 
     @IsDefined()
     @IsNumber()
-    weight: 'wood' | 'metal' | 'plastic' | 'other';
+    weight: number;
 }

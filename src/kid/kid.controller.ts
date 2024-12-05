@@ -3,7 +3,7 @@ import { KidService } from './kid.service';
 import { CreateKidDto } from './dto/create-kid.dto';
 import { UpdateKidDto } from './dto/update-kid.dto';
 
-@Controller('kid')
+@Controller('children')
 export class KidController {
   constructor(private readonly kidService: KidService) {}
 

@@ -3,7 +3,7 @@ import { ToyService } from './toy.service';
 import { CreateToyDto } from './dto/create-toy.dto';
 import { UpdateToyDto } from './dto/update-toy.dto';
 
-@Controller('toy')
+@Controller('toys')
 export class ToyController {
   constructor(private readonly toyService: ToyService) {}
 
@@ -18,17 +18,18 @@ export class ToyController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     return this.toyService.findOne(+id);
   }
 
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateToyDto: UpdateToyDto) {
+  async update(@Param('id') id: string, @Body() updateToyDto: UpdateToyDto) {
     return this.toyService.update(+id, updateToyDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return this.toyService.remove(+id);
   }
 }

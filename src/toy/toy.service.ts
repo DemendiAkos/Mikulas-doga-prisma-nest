@@ -1,26 +1,58 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateToyDto } from './dto/create-toy.dto';
 import { UpdateToyDto } from './dto/update-toy.dto';
+import { PrismaClient } from '@prisma/client';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class ToyService {
+  db: PrismaService;
+ 
+  constructor(db: PrismaService) {
+    this.db = db;
+  }
+
   create(createToyDto: CreateToyDto) {
-    return 'This action adds a new toy';
+    return this.db.toy.create({
+        data: createToyDto
+      }
+    );
   }
 
   findAll() {
-    return `This action returns all toy`;
+    return this.db.toy.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} toy`;
+  async findOne(id: number) {
+    const toy = await this.db.toy.findUnique({where: {toyID: id}, include: {kids: true}});
+    
+    if (!toy) {
+      throw new NotFoundException(`Toy with ID ${id} not found`);
+    }else {
+      return toy;
+    }
   }
 
-  update(id: number, updateToyDto: UpdateToyDto) {
-    return `This action updates a #${id} toy`;
+  
+  async remove(id: number) {
+    try {
+      const toy = await this.db.toy.delete({where: {toyID: id}});
+      return toy;
+    } catch (error) {
+      throw new NotFoundException(`Toy with ID ${id} not found`);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} toy`;
+
+  async update(id: number, updateToyDto: UpdateToyDto) {
+    try  {
+      const toy = await this.db.toy.update({
+        where: {toyID: id},
+        data: updateToyDto
+      })
+    } catch (error) {
+      throw new NotFoundException(`Toy with ID ${id} not found`);
+    } 
   }
+
 }
