@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
 import { KidService } from './kid.service';
 import { CreateKidDto } from './dto/create-kid.dto';
 import { UpdateKidDto } from './dto/update-kid.dto';
@@ -31,4 +31,16 @@ export class KidController {
   remove(@Param('id') id: string) {
     return this.kidService.remove(+id);
   }
+
+  @Put(':kidID/toys/:toyID')
+  async addToyToKid(@Param('kidID') kidID: string, @Param('toyID') toyID: string) {
+    return this.kidService.addToyToKid(+kidID, +toyID);
+  }
+
+  @Delete(':kidID/toys/:toyID')
+  async removeToyFromKid(@Param('kidID') kidID: string, @Param('toyID') toyID: string) {
+    return this.kidService.removeToyFromKid(+kidID, +toyID);
+  }
+
+  
 }

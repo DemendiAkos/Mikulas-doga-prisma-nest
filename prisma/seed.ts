@@ -5,10 +5,16 @@ const prisma = new PrismaClient();
 
 async function main() {
   console.log('Seeding data...');
+
+
   
+  await prisma.kid.deleteMany();
+  await prisma.toy.deleteMany();
+  
+
   for (let i = 0; i < 10; i++) {
-    const kidName = faker.name.firstName();
-    const kidAddress = faker.address.streetAddress();
+    const kidName = faker.person.firstName();
+    const kidAddress = `${faker.location.country()} ${faker.location.city()} ${faker.location.street()} ${faker.location.buildingNumber()} `;
     const kidIsGood = faker.datatype.boolean();
 
     const kid = await prisma.kid.create({

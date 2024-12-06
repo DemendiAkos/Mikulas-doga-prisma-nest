@@ -1,4 +1,4 @@
-import { IsDefined, IsIn, IsNumber, IsString } from "class-validator";
+import { IsDefined, IsIn, IsNumber, IsPositive, IsString } from "class-validator";
 
 export class CreateToyDto {
     @IsDefined()
@@ -12,5 +12,6 @@ export class CreateToyDto {
 
     @IsDefined()
     @IsNumber()
+    @IsPositive()
     weight: number;
 }

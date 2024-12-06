@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateToyDto } from './dto/create-toy.dto';
 import { UpdateToyDto } from './dto/update-toy.dto';
 import { PrismaClient } from '@prisma/client';
@@ -6,11 +6,7 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class ToyService {
-  db: PrismaService;
- 
-  constructor(db: PrismaService) {
-    this.db = db;
-  }
+  constructor (private readonly db: PrismaService) {}
 
   create(createToyDto: CreateToyDto) {
     return this.db.toy.create({
@@ -20,7 +16,7 @@ export class ToyService {
   }
 
   findAll() {
-    return this.db.toy.findMany();
+    return this.db.toy.findMany({include: {kids: true}});
   }
 
   async findOne(id: number) {
